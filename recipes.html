@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSERRA KULINER</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f0e9;
+            color: #333;
+        }
+
+        header {
+    background-color: #d8bba3;
+    padding: 2px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    justify-content: space-between; /* Menyusun logo dan pencarian di sisi kiri dan kanan */
+    align-items: center; /* Menjaga agar logo dan pencarian sejajar secara vertikal */
+}
+
+header {
+    background-color: #d8bba3;
+    padding: 2px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    justify-content: space-between; /* Menyusun logo dan pencarian di sisi kiri dan kanan */
+    align-items: center; /* Menjaga agar logo dan pencarian sejajar secara vertikal */
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    max-width: 150px;
+    max-height: 150px;
+    width: auto;
+    height: auto;
+}
+
+
+#search-input {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+
+
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px;
+            background-color: #c59e83;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-image: url('hero-image-placeholder.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #583207;
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            margin: 10px 0;
+        }
+
+        .hero p {
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card h3 {
+            margin: 0;
+            padding: 15px;
+            font-size: 1.5rem;
+            color: #c59e83;
+        }
+
+        .card p {
+            padding: 0 15px 15px;
+            font-size: 1rem;
+            color: #666;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .modal h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .modal p {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #d8bba3;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="Image/logo3.png" alt="Poserra Kuliner Logo" class="logo">
+        </div>
+        <h1>PASORRA KULINER</h1>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Cari resep...">
+            <button onclick="searchRecipe()">Cari</button>
+        </div>        
+    </header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="recipes.html">Recipes</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+</nav>
+
+<section class="hero">
+    <h2>Kuliner Khas Sulawesi Tenggara</h2>
+    <p>Temukan kekayaan kuliner Sulawesi Tenggara melalui resep khas yang kami sajikan.</p>
+</section>
+
+<section class="grid" id="recipe-grid">
+    <!-- Recipe cards will be dynamically added here -->
+</section>
+
+<!-- Modal for Sinonggi recipe -->
+<div id="sinonggiModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('sinonggiModal')">&times;</span>
+        <h2>Resep Sinonggi</h2>
+        <img src="Image/sinonggi2.jpg" alt="Sinonggi" style="width:100%; height:auto; border-radius: 8px;">
+        <h3>Sinonggi</h3>
+        <p>Sinonggi adalah makanan khas Suku Tolaki, Sulawesi Tenggara yang terbuat dari pati sagu. Sinonggi memiliki tekstur kenyal dan lengket, serta rasanya yang hambar. Sinonggi biasanya disajikan dengan makanan lain yang memiliki cita rasa kuat, seperti kuah ikan, kuah daging, sayur ikan, atau sayur bening</p>
+        <h4>Bahan-bahan:</h4>
+        <ul>
+            <li>Sagu 400 gram atau secukupnya</li>
+            <li>Air secukupnya</li>
+            <li>Sayur atau kuah Ikan</li>
+            <li>Daun Cemangi</li>
+            <li>Jeruk Nipis atau jeruk Purut dan lombok biji</li>
+        </ul>
+        <h4>Cara membuat:</h4>
+        <ol>
+            <li>Ambil sagu secukupnya dan masukkan ke dalam mangkuk yang cukup besar.</li>
+            <li>Cuci sagu tersebut di dalam mangkuk dan tiriskan airnya, tapi jangan sampai sagu benar-benar kering.</li>
+            <li>Panaskan air hingga mendidih dalam panci sekitar 1,5 liter.</li>
+            <li>Tuangkan air mendidih perlahan-lahan ke dalam mangkuk yang berisi sagu sambil terus diaduk.</li>
+            <li>Setelah sagu mulai kenyal dan berubah warna, adukannya dengan lebih kencang agar matangnya merata.</li>
+            <li>Sinonggi sudah siap! Sajikan dengan cara yang menarik dan nikmati bersama keluarga atau teman-teman.</li>
+        </ol>
+        <button onclick="window.location.href='https://youtu.be/7FNe11nFifM?si=qlHd8kI5rjOIKXlm';">Tonton Video</button>
+    </div>
+</div>
+
+<!-- Modal for Ikan Parende recipe -->
+<div id="parendeModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('parendeModal')">&times;</span>
+        <h2>Resep Ikan Parende</h2>
+        <img src="Image/parende.jpeg" alt="Ikan Parende" style="width:100%; height:auto; border-radius: 8px;">
+        <h3>Ikan Parende</h3>
+        <p>Salah satu makanan khas Buton, Sulawesi Tenggara berbahan dasar ikan segar adalah Parende. Parende merupakan sup ikan bumbu kuning rasa pedas berpadu asam dan gurih</p>
+        <h4>Bahan-bahan:</h4>
+        <ul>
+            <li>750 ml air</li>
+            <li>2 siung bawang putih dirajang</li>
+            <li>4 buah bawang merah dirajang</li>
+            <li>2 sdm air asam (20gr asam jawa direndam dengan 50 ml air panas)</li>
+            <li>1 sdm gula</li>
+            <li>2 batang daun bawang</li>
+            <li>2 buah cabe merah dirajang</li>
+            <li>2 ekor ikan tengiri atau kerapu</li>
+            <li>Kunyit</li>
+            <li>1 buah jeruk lemon</li>
+            <li>Merica</li>
+            <li>2 sdm air perasan jeruk nipis atau lemon</li>
+        </ul>
+        <h4>Cara membuat:</h4>
+        <ol>
+            <li>Panaskan semua bahan 1 dengan api yang sedang hingga mendidih. Campur bahan 2 lalu aduk rata.</li>
+            <li>Setelah air mendidih, masukkan ikan lalu rebus hingga ikan matang (kurang lebih 10 menit). Angkat dan hidangkan. Sangat nikmat dikonsumsi saat masih hangat.</li>
+        </ol>
+        <button onclick="window.location.href='https://youtu.be/4MvWQuDuIcI?si=PFSue5bLXVz2pT29';">Tonton Video</button>
+    </div>
+</div>
+
+<div id="kabutoModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('kabutoModal')">&times;</span>
+        <h2>Resep Kabuto</h2>
+        <img src="Image/kabuto.jpeg" alt="Kabuto" style="width:100%; height:auto; border-radius: 8px;">
+        <h3>Kabuto</h3>
+        <p>Kabuto adalah salah satu makanan yang terbuat dari singkong yang dikeringkan dan dimasak. Kabuto ini sangat mirip dengan gatot, salah satu makanan khas Jawa. Namun, kabuto bisa dinikmati dengan ikan asin atau lauk lainnya.</p>
+        <h4>Bahan-bahan:</h4>
+        <ul>
+            <li>1 buah kakombo (singkong yang telah dikeringkan)</li>
+            <li>Garam secukupnya</li>
+            <li>Kelapa parut</li>
+            <li>Ikan asin (opsional)</li>
+        </ul>
+        <h4>Cara membuat:</h4>
+        <ol>
+            <li>Potong kakombo kecil-kecil lalu rendam dengan air selama semalam. Setelah itu tiriskan kakombo.</li>
+            <li>Siapkan panci kukusan, dan kukus kakombo selama 15-30 menit dengan api sedang.</li>
+            <li>Jika sudah matang, angkat dan biarkan agak dingin. Kemudian campurkan dengan garam secukupnya.</li>
+            <li>Sajikan kabuto dengan kelapa parut dan ikan asin.</li>
+        </ol>
+        <button onclick="window.location.href='https://youtu.be/tgdCvZlxfT0?si=SANLGq8aseQjo3IW';">Tonton Video</button>
+    </div>
+</div>
+<div id="kasoamiModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('kasoamiModal')">&times;</span>
+        <h2>Resep Kasoami</h2>
+        <img src="Image/kasoami.jpeg" alt="Kasoami" style="width:100%; height:auto; border-radius: 8px;">
+        <h3>Kasoami</h3>
+        <p>Kasoami adalah makanan olahan dari singkong khas Sulawesi Tenggara. Makanan ini cukup terkenal di Sulawesi Tenggara karena bentuknya yang unik dan menyerupai tumpeng. Terbuat dari singkong diparut, dikeringkan, kemudian disaring, dan dikukus. Makanan ini biasa disantap seperti makanan pokok pada umumnya yaitu dengan lauk dan sayuran.</p>
+        <h4>Bahan-bahan:</h4>
+        <ul>
+            <li>1 kg singkong</li>
+            <li>1/2 sdt garam</li>
+        </ul>
+        <h4>Cara membuat:</h4>
+        <ol>
+            <li>Kupas singkong dan parut hingga halus. Peras di dalam kain agar airnya habis. Prosesnya bisa agak lama, sekitar 3 jam.</li>
+            <li>Jika sudah kering, hancurkan singkong parut yang menggumpal.</li>
+            <li>Tempatkan pada daun pisang yang sudah dibentuk kerucut.</li>
+            <li>Masukkan singkong dan kukus selama 30 menit atau hingga matang.</li>
+        </ol>
+        <button onclick="window.location.href='https://youtu.be/Gjew2PckrOY?si=_cdNFfpjV0pZAM54';">Tonton Video</button>
+    </div>
+</div>
+<div id="lulutaModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('lulutaModal')">&times;</span>
+        <h2>Resep Luluta</h2>
+        <img src="Image/luluta.jpeg" alt="Luluta" style="width:100%; height:auto; border-radius: 8px;">
+        <h3>Luluta</h3>
+        <p>Luluta merupakan makanan khas dari daerah Sulawesi Tenggara. Luluta adalah cara memasak nasi dengan cara dibakar di dalam bambu. Di daerah lain, makanan ini dikenal dengan nama lemang atau lemeng. Berikut adalah bahan dan cara membuatnya.</p>
+        <h4>Bahan-bahan:</h4>
+        <ul>
+            <li>Beras (Merah atau Putih), secukupnya</li>
+            <li>Beberapa bilah bambu, secukupnya</li>
+            <li>Beberapa lembar daun pisang, secukupnya</li>
+        </ul>
+        <h4>Cara membuat:</h4>
+        <ol>
+            <li>Cuci beras hingga bersih dan tiriskan.</li>
+            <li>Bersihkan bagian dalam bilah bambu.</li>
+            <li>Bungkus beras dengan daun pisang dan masukkan ke dalam bilah bambu. Tutup ujung bambu dengan daun pisang.</li>
+            <li>Bakar bambu menggunakan kayu bakar atau batok kelapa.</li>
+            <li>Putar-putar batang bambu agar matangnya merata. Setelah matang, sajikan segera.</li>
+        </ol>
+        <button onclick="window.location.href='https://youtu.be/wfPvFXqMxG4?si=OjGPHrGqlxkawdlt';">Tonton Video</button>
+    </div>
+</div>
+<div id="manuKinowuModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('manuKinowuModal')">&times;</span>
+        <h2>Resep Manu Kinowu</h2>
+        <img src="Image/manu.jpeg" alt="Manu Kinowu" style="width:100%; height:auto; border-radius: 8px;">
+        <h3>Manu Kinowu</h3>
+        <p>Manu Kinowu adalah masakan khas dari Sulawesi Tenggara yang berbahan dasar ayam dengan bumbu rempah yang khas. Berikut adalah bahan-bahan dan cara membuatnya.</p>
+        <h4>Bahan-bahan:</h4>
+        <ul>
+            <li>½ ekor ayam, bersihkan, potong menjadi 4 bagian</li>
+            <li>3 sendok makan minyak goreng untuk menumis</li>
+            <li>400 ml air</li>
+        </ul>
+        <h4>Bumbu:</h4>
+        <ul>
+            <li>2 cm jahe, geprek</li>
+            <li>2 lembar daun salam</li>
+            <li>1 ½ sendok teh garam</li>
+            <li>1 batang serai, geprek</li>
+            <li>1 buah tomat merah, potong-potong</li>
+            <li>½ sendok teh gula pasir</li>
+        </ul>
+        <h4>Bumbu Halus:</h4>
+        <ul>
+            <li>6 butir bawang merah</li>
+            <li>3 buah cabai merah besar</li>
+            <li>3 buah cabai merah keriting</li>
+        </ul>
+        <h4>Cara memasak:</h4>
+        <ol>
+            <li>Tumis bumbu halus bersama serai, jahe, dan daun salam hingga matang dan harum.</li>
+            <li>Masukkan ayam, aduk hingga ayam berubah warna.</li>
+            <li>Tambahkan tomat, aduk hingga tomat layu.</li>
+            <li>Tambahkan air, lalu masak sampai ayam matang dan bumbu meresap.</li>
+            <li>Angkat dan sajikan Manu Kinowu selagi hangat.</li>
+        </ol>
+        <button onclick="window.location.href='https://youtu.be/mV7gpNpAAJY?si=9qV6xlrGT3i-xZaI';">Tonton Video</button>
+    </div>
+</div>
+
+<div id="ikanDoleModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('ikanDoleModal')">&times;</span>
+        <h2>Resep Ikan Dole</h2>
+        <img src="Image/dole.jpeg" alt="Ikan Dole" style="width:100%; height:auto; border-radius: 8px;">
+        <h3>Ikan Dole</h3>
+        <p>Ikan Dole adalah makanan khas dari Buton, Sulawesi Tenggara, yang memiliki cita rasa gurih. Bentuknya segitiga dan teksturnya khas karena terbuat dari ikan dan kelapa. Berikut adalah bahan dan cara membuatnya.</p>
+        <h4>Bahan-bahan:</h4>
+        <ul>
+            <li>1 kg ikan layang (dapat diganti dengan ikan lain seperti ikan tenggiri, ikan kuwe, selar, tuna, atau baby tuna, yang penting jenis ikannya adalah ikan yang berdaging putih dan padat)</li>
+            <li>2 buah jeruk nipis</li>
+            <li>1 sdm garam kasar</li>
+            <li>1/2 sdm kunyit bubuk</li>
+            <li>1/4 bungkus penyedap rasa</li>
+            <li>Minyak goreng secukupnya</li>
+        </ul>
+        <h4>Bumbu:</h4>
+        <ul>
+            <li>1/2 buah kelapa yang tidak terlalu tua, disangrai</li>
+            <li>5 buah jeruk nipis</li>
+            <li>1/2 sdm jintan halus</li>
+            <li>1 1/2 sdm merica halus</li>
+            <li>1 1/2 sdm ketumbar halus</li>
+            <li>1 sdm garam kasar</li>
+            <li>1 bungkus penyedap rasa ayam</li>
+            <li>1/2 sdm gula pasir halus</li>
+            <li>2 butir telur</li>
+        </ul>
+        <h4>Cara membuat:</h4>
+        <ol>
+            <li>Bersihkan ikan dan lumuri dengan jeruk nipis, garam kasar, dan kunyit bubuk. Diamkan selama 15 menit, lalu bilas bersih.</li>
+            <li>Giling ikan hingga halus.</li>
+            <li>Campurkan ikan yang sudah halus dengan kelapa sangrai, bumbu halus, dan telur. Aduk hingga merata.</li>
+            <li>Bentuk adonan menjadi segitiga atau sesuai selera.</li>
+            <li>Panaskan minyak goreng, lalu goreng adonan hingga matang dan berwarna kecokelatan.</li>
+            <li>Angkat dan sajikan Ikan Dole selagi hangat.</li>
+        </ol>
+        <button onclick="window.location.href='https://youtu.be/8rTq5jIhqnI?si=x9D2uRdm-mbM6kXF';">Tonton Video</button>
+    </div>
+</div>
+
+<div id="sateGogosPokeaModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('sateGogosPokeaModal')">&times;</span>
+        <h2>Resep Sate Gogos Pokea</h2>
+        <img src="Image/sate.jpeg" alt="Sate Gogos Pokea" style="width:100%; height:auto; border-radius: 8px;">
+        <h3>Sate Gogos Pokea</h3>
+        <p>Sate Gogos Pokea merupakan penganan khas dari daerah Kali Pohara di Kabupaten Konawe, Sulawesi Tenggara. Dalam bahasa setempat, "pokea" adalah sebutan untuk kerang sungai endemik daerah tersebut. Berikut adalah bahan dan cara membuatnya.</p>
+        <h4>Bahan-bahan:</h4>
+        <ul>
+            <li>300 gr daging kerang dara</li>
+            <li>20 buah tusuk sate dari lidi</li>
+            <li>350 ml air</li>
+        </ul>
+        <h4>Bumbu Halus:</h4>
+        <ul>
+            <li>1 1/2 sdm gula pasir</li>
+            <li>8 buah cabe rawit</li>
+            <li>5 siung bawang putih</li>
+            <li>2 cm lengkuas</li>
+            <li>1 sdt ketumbar bubuk</li>
+            <li>1/2 sdt merica bubuk</li>
+            <li>1 sdt garam</li>
+        </ul>
+        <h4>Bahan Pelengkap:</h4>
+        <ul>
+            <li>6 buah gogos (lemper tanpa isi, terbuat dari ketan matang yang dibungkus daun pisang, kemudian dikukus dan dibakar)</li>
+        </ul>
+        <h4>Cara membuat:</h4>
+        <ol>
+            <li>Rebus air hingga mendidih, lalu masukkan bumbu halus. Aduk rata hingga harum dan matang.</li>
+            <li>Masukkan kerang, masak hingga air mulai habis dan bumbu meresap.</li>
+            <li>Tusuk kerang pada tusuk lidi, masing-masing 5-7 buah sesuai selera.</li>
+            <li>Panggang sate di atas pan hingga harum dan sedikit kecokelatan.</li>
+            <li>Sajikan panas-panas bersama gogos.</li>
+        </ol>
+        <button onclick="window.location.href='https://youtu.be/NzMN4g5oh5o?si=gSflRiqICne26Qa0';">Tonton Video</button>
+    </div>
+</div>
+
+<div id="kapusuNosuModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('kapusuNosuModal')">&times;</span>
+        <h2>Resep Kapusu Nosu</h2>
+        <img src="Image/kapusu.jpg" alt="Kapusu Nosu" style="width:100%; height:auto; border-radius: 8px;">
+        <h3>Kapusu Nosu</h3>
+        <p>Kapusu Nosu adalah makanan khas Kendari yang berbahan dasar kacang merah yang dicampur dengan bubur jagung. Hidangan ini cukup terkenal di daerah Wakatobi, Sulawesi Tenggara. Berikut adalah bahan dan cara membuatnya.</p>
+        <h4>Bahan-bahan:</h4>
+        <ul>
+            <li>300 ml air</li>
+            <li>750 ml santan kelapa</li>
+            <li>1 kg jagung tua</li>
+            <li>1 sdm gula</li>
+            <li>1 sdt garam</li>
+        </ul>
+        <h4>Cara membuat:</h4>
+        <ol>
+            <li>Rebus air hingga mendidih, lalu masukkan jagung yang sudah dipipil dan dicuci bersih.</li>
+            <li>Masak jagung hingga empuk, lalu tambahkan santan kelapa, gula, dan garam.</li>
+            <li>Aduk perlahan hingga bubur matang dan semua bahan tercampur rata.</li>
+            <li>Sajikan hangat sebagai menu sarapan atau camilan.</li>
+        </ol>
+        <button onclick="window.location.href='https://youtu.be/iAdIf52yF7k?si=m7VO_5bk8ch2_wjR';">Tonton Video</button>
+    </div>
+</div>
+
+
+<div id="ikanDoleModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('ikanDoleModal')">&times;</span>
+        <h2>Resep Ikan Dole</h2>
+        <img src="Image/ikan_dole.jpeg" alt="Ikan Dole" style="width:100%; height:auto; border-radius: 8px;">
+        <h3>Ikan Dole</h3>
+        <p>Ikan Dole adalah makanan khas dari Buton, Sulawesi Tenggara, yang memiliki cita rasa gurih. Bentuknya segitiga dan teksturnya khas karena terbuat dari ikan dan kelapa. Berikut adalah bahan dan cara membuatnya.</p>
+        <h4>Bahan-bahan:</h4>
+        <ul>
+            <li>1 kg ikan layang (dapat diganti dengan ikan lain seperti ikan tenggiri, ikan kuwe, selar, tuna, atau baby tuna, yang penting jenis ikannya adalah ikan yang berdaging putih dan padat)</li>
+            <li>2 buah jeruk nipis</li>
+            <li>1 sdm garam kasar</li>
+            <li>1/2 sdm kunyit bubuk</li>
+            <li>1/4 bungkus penyedap rasa</li>
+            <li>Minyak goreng secukupnya</li>
+        </ul>
+        <h4>Bumbu:</h4>
+        <ul>
+            <li>1/2 buah kelapa yang tidak terlalu tua, disangrai</li>
+            <li>5 buah jeruk nipis</li>
+            <li>1/2 sdm jintan halus</li>
+            <li>1 1/2 sdm merica halus</li>
+            <li>1 1/2 sdm ketumbar halus</li>
+            <li>1 sdm garam kasar</li>
+            <li>1 bungkus penyedap rasa ayam</li>
+            <li>1/2 sdm gula pasir halus</li>
+            <li>2 butir telur</li>
+        </ul>
+        <h4>Cara membuat:</h4>
+        <ol>
+            <li>Bersihkan ikan dan lumuri dengan jeruk nipis, garam kasar, dan kunyit bubuk. Diamkan selama 15 menit, lalu bilas bersih.</li>
+            <li>Giling ikan hingga halus.</li>
+            <li>Campurkan ikan yang sudah halus dengan kelapa sangrai, bumbu halus, dan telur. Aduk hingga merata.</li>
+            <li>Bentuk adonan menjadi segitiga atau sesuai selera.</li>
+            <li>Panaskan minyak goreng, lalu goreng adonan hingga matang dan berwarna kecokelatan.</li>
+            <li>Angkat dan sajikan Ikan Dole selagi hangat.</li>
+        </ol>
+        <button onclick="window.location.href='https://youtu.be/example';">Tonton Video</button>
+    </div>
+</div>
+
+<div id="sateGogosPokeaModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('sateGogosPokeaModal')">&times;</span>
+        <h2>Resep Sate Gogos Pokea</h2>
+        <img src="Image/sate_gogos_pokea.jpeg" alt="Sate Gogos Pokea" style="width:100%; height:auto; border-radius: 8px;">
+        <h3>Sate Gogos Pokea</h3>
+        <p>Sate Gogos Pokea merupakan penganan khas dari daerah Kali Pohara di Kabupaten Konawe, Sulawesi Tenggara. Dalam bahasa setempat, "pokea" adalah sebutan untuk kerang sungai endemik daerah tersebut. Berikut adalah bahan dan cara membuatnya.</p>
+        <h4>Bahan-bahan:</h4>
+        <ul>
+            <li>300 gr daging kerang dara</li>
+            <li>20 buah tusuk sate dari lidi</li>
+            <li>350 ml air</li>
+        </ul>
+        <h4>Bumbu Halus:</h4>
+        <ul>
+            <li>1 1/2 sdm gula pasir</li>
+            <li>8 buah cabe rawit</li>
+            <li>5 siung bawang putih</li>
+            <li>2 cm lengkuas</li>
+            <li>1 sdt ketumbar bubuk</li>
+            <li>1/2 sdt merica bubuk</li>
+            <li>1 sdt garam</li>
+        </ul>
+        <h4>Bahan Pelengkap:</h4>
+        <ul>
+            <li>6 buah gogos (lemper tanpa isi, terbuat dari ketan matang yang dibungkus daun pisang, kemudian dikukus dan dibakar)</li>
+        </ul>
+        <h4>Cara membuat:</h4>
+        <ol>
+            <li>Rebus air hingga mendidih, lalu masukkan bumbu halus. Aduk rata hingga harum dan matang.</li>
+            <li>Masukkan kerang, masak hingga air mulai habis dan bumbu meresap.</li>
+            <li>Tusuk kerang pada tusuk lidi, masing-masing 5-7 buah sesuai selera.</li>
+            <li>Panggang sate di atas pan hingga harum dan sedikit kecokelatan.</li>
+            <li>Sajikan panas-panas bersama gogos.</li>
+        </ol>
+        <button onclick="window.location.href='https://youtu.be/example2';">Tonton Video</button>
+    </div>
+</div>
+
+<div id="lapaLapaModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('lapaLapaModal')">&times;</span>
+        <h2>Resep Lapa-lapa</h2>
+        <img src="Image/lapa.jpeg" alt="Lapa-lapa" style="width:100%; height:auto; border-radius: 8px;">
+        <h3>Lapa-lapa</h3>
+        <p>Lapa-lapa adalah makanan khas Sulawesi Tenggara, tepatnya berasal dari daerah Buton. Memiliki cita rasa gurih, kuliner tradisional ini kerap muncul pada bulan Ramadan. Berikut adalah bahan dan cara membuatnya.</p>
+        <h4>Bahan-bahan:</h4>
+        <ul>
+            <li>500 gram beras ketan putih</li>
+            <li>100 gram beras ketan merah</li>
+            <li>300 ml santan cair</li>
+            <li>1-2 sdt garam</li>
+            <li>2 lembar daun pandan</li>
+            <li>2 sdm minyak goreng</li>
+        </ul>
+        <h4>Cara membuat:</h4>
+        <ol>
+            <li>Campurkan kedua jenis beras ketan. Cuci bersih dan rendam selama 2 jam. Cuci bersih dan tiriskan.</li>
+            <li>Masukkan beras ketan ke dalam wajan besar.</li>
+            <li>Masukkan santan, garam, dan daun pandan. Aduk rata dan masak hingga beras ketan matang. Aduk terus agar tidak gosong dan gunakan api kecil jika santan sudah mendidih.</li>
+            <li>Jika air santannya sudah habis dan beras ketan cukup lembek, angkat. Sisihkan daun pandannya.</li>
+            <li>Ambil janur dan lapisi dengan daun pisang. Beri isian beras ketan, tutup dan ikat dengan janur.</li>
+            <li>Jika tidak cukup, bisa menggunakan tali rafia atau benang tebal. Lakukan hingga isian habis.</li>
+            <li>Panaskan kukusan, masukkan semua lapa-lapa dan kukus selama 2-3 jam lamanya. Angkat.</li>
+        </ol>
+        <button onclick="window.location.href='https://youtu.be/lxFTk7HwOjs?si=awprhVz2v03vRqwy';">Tonton Video</button>
+</div>
+</div>
+<div id="perangiModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('perangiModal')">&times;</span>
+        <h2>Resep Perangi</h2>
+        <img src="Image/Perangi.jpg" alt="Perangi" style="width:100%; height:auto; border-radius: 8px;">
+        <h3>Perangi</h3>
+        <p>Perangi adalah hidangan laut khas Pulau Kaledupa, Kabupaten Wakatobi, Sulawesi Tenggara. Makanan ini berbahan dasar ikan segar, biasanya ikan karang, yang diolah mentah dengan bumbu khas sehingga memiliki cita rasa segar, asam, asin, dan gurih</p>
+        <h4>Bahan-bahan:</h4>
+        <ul>
+            <li>Ikan mentah yang segar (biasanya ikan karang)</li>
+            <li>Jeruk nipis secukupnya</li>
+            <li>Bawang merah secukupnya</li>
+            <li>Cabai rawit sesuai selera</li>
+            <li>Garam dan penyedap rasa secukupnya</li>
+        </ul>
+        <h4>Cara membuat:</h4>
+        <ol>
+            <li>Cuci bersih ikan segar hingga tidak ada darah yang tersisa.</li>
+            <li>Potong ikan kecil-kecil atau sesuai selera (fillet, cincang, atau dadu).</li>
+            <li>Iris bawang merah dan cabai, lalu peras jeruk nipis.</li>
+            <li>Masukkan potongan ikan ke dalam wadah, tambahkan perasan jeruk nipis, dan remas-remas hingga kuahnya berwarna putih.</li>
+            <li>Tambahkan irisan bawang merah, cabai, garam, dan penyedap rasa. Aduk rata sambil mencicipi rasanya.</li>
+            <li>Setelah rasa sesuai selera, sajikan segera agar tetap segar.</li>
+        </ol>
+        <h4>Saran Penyajian:</h4>
+        <p>Hidangkan Perangi dengan makanan khas Wakatobi lainnya seperti luluta (nasi bambu), kasuami (terbuat dari singkong), atau ikan parende. Nikmati selagi segar.</p>
+        <button onclick="window.location.href='https://youtu.be/t0tarXcu_CI?si=zVZlVuMzmUHNrYUH';">Tonton Video</button>
+    </div>
+</div>
+
+<div id="sarabaModal" class="modal">
+    <div class="modal-content">
+        <!-- Tombol untuk menutup modal -->
+        <span class="close" onclick="closeModal('sarabaModal')">&times;</span>
+
+        <!-- Judul Modal -->
+        <h2>Resep Saraba</h2>
+
+        <!-- Gambar Saraba -->
+        <img src="Image/saraba1.jpg" alt="Saraba" style="width:100%; height:auto; border-radius:8px;">
+
+        <!-- Deskripsi Singkat -->
+        <h3>Saraba</h3>
+        <p>Saraba adalah minuman dengan sari jahe dan rempah yang dicampur dengan susu. Minuman ini rasanya mirip dengan bandrek dan paling cocok dinikmati dengan pisang goreng.</p>
+
+        <!-- Daftar Bahan -->
+        <h4>Bahan-bahan:</h4>
+        <ul>
+            <li>Air 500 ml</li>
+            <li>Jahe merah 100 gram (dimemarkan)</li>
+            <li>Serai 20 gram (dimemarkan)</li>
+            <li>Cengkih 5 buah</li>
+            <li>Kayu manis 10 gram</li>
+            <li>Gula merah 150 gram</li>
+            <li>Garam 3 gram</li>
+            <li>Santan kental 100 ml</li>
+            <li>Susu 100 ml</li>
+            <li>Gelatin 50 gram (opsional)</li>
+        </ul>
+
+        <!-- Langkah-langkah Membuat Saraba -->
+        <h4>Cara membuat:</h4>
+        <ol>
+            <li>Panaskan air hingga mendidih. Masukkan jahe, serai, cengkih, dan kayu manis. Masak dengan api kecil selama 20 menit. Tambahkan gula merah dan aduk hingga larut.</li>
+            <li>Campurkan gelatin dengan susu cair. Aduk hingga tercampur rata dan agak mengental. Masukkan campuran ini ke dalam panci. Aduk hingga gelatin larut.</li>
+            <li>Tambahkan santan kental dan aduk hingga merata.</li>
+            <li>Diamkan selama 3-5 menit, kemudian matikan api. Saring menggunakan saringan halus.</li>
+            <li>Saraba siap dinikmati selagi hangat.</li>
+        </ol>
+
+        <!-- Saran Penyajian -->
+        <h4>Saran Penyajian:</h4>
+        <p>Hidangkan Saraba dengan pisang goreng atau camilan favorit Anda untuk pengalaman yang lebih nikmat.</p>
+
+        <!-- Tombol untuk menonton video -->
+        <button onclick="window.location.href='https://youtu.be/coOMViPMYwI?si=Ibpwds7CKfjjgJeG';">Tonton Video</button>
+    </div>
+</div>
+
+<div id="bageaModal" class="modal">
+    <div class="modal-content">
+        <!-- Tombol untuk menutup modal -->
+        <span class="close" onclick="closeModal('bageaModal')">&times;</span>
+
+        <!-- Judul Modal -->
+        <h2>Resep Kue Bagea</h2>
+
+        <!-- Gambar Kue Bagea -->
+        <img src="Image/bagea.jpeg" alt="Kue Bagea" style="width:100%; height:auto; border-radius:8px;">
+
+        <!-- Deskripsi Singkat -->
+        <p>Bagea adalah kue tradisional yang berbahan baku tepung sagu yang dimasak dengan cara dipanggang dalam oven. Kue ini memiliki rasa yang gurih dan tekstur renyah, cocok untuk camilan.</p>
+
+        <!-- Daftar Bahan -->
+        <h4>Bahan-bahan:</h4>
+        <ul>
+            <li>1 butir telur</li>
+            <li>75 gr gula pasir</li>
+            <li>38 ml minyak sayur</li>
+            <li>100 gr tepung sagu</li>
+            <li>50 gr tepung terigu</li>
+            <li>50 gr kelapa sangrai</li>
+            <li>75 gr kacang tanah sangrai</li>
+            <li>¼ sdt kayu manis</li>
+            <li>1/3 sdt vanilla</li>
+            <li>¼ sdt baking soda</li>
+        </ul>
+
+        <!-- Langkah-langkah Membuat Kue Bagea -->
+        <h4>Cara membuat:</h4>
+        <ol>
+            <li>Masukkan telur dan gula, lalu aduk selama 3-5 menit sampai gula larut dan tercampur rata.</li>
+            <li>Masukkan minyak sayur, sambil diaduk terus.</li>
+            <li>Tambahkan tepung sagu, tepung terigu, kelapa sangrai, kacang tanah sangrai, kayu manis, vanilla, dan baking soda. Aduk adonan sampai tercampur rata.</li>
+            <li>Bentuk adonan menjadi bulat, lalu dibentuk lonjong dan letakkan di atas loyang. Berikan tambahan kacang mete sebagai garnish di atasnya.</li>
+            <li>Panggang dengan suhu 150°C selama kurang lebih 22 menit hingga matang.</li>
+            <li>Angkat dan dinginkan, sajikan bagea di piring saji atau simpan ke dalam toples.</li>
+        </ol>
+        <button onclick="window.location.href='https://youtu.be/TzIFnSCsMuk?si=Hb_S2jBoqzHDfF_O';">Tonton Video</button>
+    </div>
+</div>
+
+
+
+<footer>
+    <p>&copy; 2025 Kuliner Lokal Sulawesi Tenggara. All rights reserved.</p>
+</footer>
+
+<script>
+    // Data for recipes
+    const recipes = [
+        {
+            title: "Sinonggi",
+            description: "Sinonggi adalah makanan khas suku Tolaki dari Sulawesi Tenggara yang terbuat dari pati sari sagu",
+            image: "Image/sinonggi2.jpg",
+            modalId: "sinonggiModal",
+        },
+        {
+            title: "Ikan Parende",
+            description: "Salah satu makanan khas Buton, Sulawesi Tenggara berbahan dasar ikan segar adalah Parende. Parende merupakan sup ikan bumbu kuning rasa pedas berpadu asam dan gurih",
+            image: "Image/parende.jpeg",
+            modalId: "parendeModal",
+        },
+        {
+            title: "Kabuto",
+            description: "Kabuto salah satu makanan yang terbuat dari singkong yang dikeringkan dan dimasak. Babuto ini sangat sama seperti dengan gatot, salah satu makanan khas Jawa. Namun, kabuto bisa dinikmati dengan ikan asin atau lainnya",
+            image: "Image/kabuto.jpeg",
+            modalId: "kabutoModal",
+        },
+        {
+            title: "Kasoami",
+            description: "Kasoami adalah makanan olahan dari singkong khas Sulawesi Tenggara. Makanan ini cukup terkenal di Sulawesi Tenggara karena bentuknya yang unik dan menyerupai tumpeng. ",
+            image: "Image/kasoami.jpeg",
+            modalId: "kasoamiModal",
+        },
+        {
+            title: "Luluta",
+            description: "Luluta merupakan makanan Khas dari Daerah Sulawesi tenggara. Luluta merupakan cara memasak nasi dengan cara dibakar di dalam bambu, di daerah lain dikenal dengan lemang / lemeng.",
+            image: "Image/luluta.jpeg",
+            modalId: "lulutaModal",
+        },
+        {
+            title: "Manu Kinowu ",
+            description: "Manu kinowu adalah salah satu masakan khas Sulawesi Tenggara. Makanan ini terbuat dari daging ayam yang diberi bumbu sehingga menghasilkan rasa yang nikmat dan lezat.",
+            image: "Image/manu.jpeg",
+            modalId: "manuKinowuModal",
+        },
+        {
+            title: "Ikan Dole",
+            description: "Bercita rasa gurih, ikan dole merupakan makanan khas yang juga berasal dari Buton. Makanan satu ini berbentuk segitiga dan bertekstur karena terbuat dari ikan dan kelapa.",
+            image: "Image/dole.jpeg",
+            modalId: "ikanDoleModal",
+        },
+        {
+            title: "Sate Gogos Pokea ",
+            description: "Sate gogos pokea merupakan penganan yang berasal dari daerah Kali Pohara di Kabupaten Konawe. Dalam bahasa setempat, pokea adalah sebutan untuk kerang sungai endemik Sulawesi Tenggara.",
+            image: "Image/sate.jpeg",
+            modalId: "sateGogosPokeaModal",
+        },
+        {
+            title: "Kapusu Nosu",
+            description: "Kapusu Nosu adalah makanan khas Kendari yang bisa jadi inspirasi. Ini adalah bubur jagung. Cukup terkenal di daerah Wakatobi, Sulawesi Tenggara.",
+            image: "Image/kapusu.jpg",
+            modalId: "kapusuNosuModal",
+        },
+        {
+            title: "Lapa-Lapa",
+            description: "Lapa-lapa adalah makanan khas Sulawesi Tenggara, tepatnya berasal dari daerah Buton. Memiliki cita rasa gurih, kuliner tradisional Sulawesi Tenggara ini kerap muncul pada bulan Ramadan.",
+            image: "Image/lapa.jpeg",
+            modalId: "lapaLapaModal",
+        },
+        {
+            title: "Perangi",
+            description: "Perangi adalah hidangan laut khas Pulau Kaledupa, Kabupaten Wakatobi, Sulawesi Tenggara. Makanan ini berbahan dasar ikan segar, biasanya ikan karang, yang diolah mentah dengan bumbu khas sehingga memiliki cita rasa segar, asam, asin, dan gurih.",
+            image: "Image/Perangi.jpg",
+            modalId: "perangiModal",
+        },
+        {
+            title: "Saraba",
+            description: "Saraba adalah minuman dengan sari jahe dan rempah yang dicampur dengan susu. Minuman ini rasanya mirip dengan bandrek dan paling cocok dinikmati dengan pisang goreng",
+            image: "Image/saraba1.jpg",
+            modalId: "sarabaModal",
+        },
+        {
+            title: "Bagea",
+            description: "Bagea adalah kue tradisional yang berbahan baku tepung sagu yang di masak dengan cara di panggang dalam oven.",
+            image: "Image/bagea.jpeg",
+            modalId: "bageaModal",
+        }
+
+
+    ];
+
+    // Function to load existing recipes
+    function loadRecipes() {
+        const grid = document.getElementById('recipe-grid');
+        grid.innerHTML = ''; // Clear previous recipes
+
+        recipes.forEach((recipe) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.onclick = () => openModal(recipe.modalId);
+            card.innerHTML = `
+                <img src="${recipe.image}" alt="${recipe.title}">
+                <h3>${recipe.title}</h3>
+                <p>${recipe.description}</p>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    // Function to open the modal and display recipe details
+    function openModal(modalId) {
+        document.getElementById(modalId).style.display = "block";
+    }
+
+    // Function to close the modal
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
+    }
+
+    // Function to close the modal when clicking outside of it
+    window.onclick = function(event) {
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(modal => {
+            if (event.target == modal) {
+                closeModal(modal.id);
+            }
+        });
+    }
+
+    function searchRecipe() {
+    const searchInputElement = document.getElementById('search-input');
+    const searchInput = searchInputElement.value.trim().toLowerCase();
+
+    // Validasi input kosong
+    if (!searchInput) {
+        alert('Silakan masukkan kata kunci untuk mencari resep');
+        return;
+    }
+
+    // Cari resep berdasarkan input
+    const foundRecipe = recipes.find(recipe => recipe.title.toLowerCase().includes(searchInput));
+
+    if (foundRecipe) {
+        // Buka modal untuk resep yang ditemukan
+        openModal(foundRecipe.modalId);
+    } else {
+        alert('Resep tidak ditemukan');
+    }
+}
+
+    // Load recipes on page load
+    window.onload = loadRecipes;
+</script>
+
+
+</body>
+</html>
